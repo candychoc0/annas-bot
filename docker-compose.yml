@@ -1,0 +1,44 @@
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+    volumes:
+      - ./prowlarr-config:/config
+    ports:
+      - "9696:9696"
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+      - WEBUI_PORT=8080
+    volumes:
+      - ./qbittorrent-config:/config
+      - ./downloads:/downloads
+    ports:
+      - "8080:8080"
+      - "6881:6881"
+      - "6881:6881/udp"
+    restart: unless-stopped
+
+  bot:
+    build: .
+    container_name: telegram-bot
+    env_file: .env
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    volumes:
+      - ./downloads:/downloads
+    depends_on:
+      - prowlarr
+      - qbittorrent
+    restart: unless-stopped

@@ -188,17 +188,24 @@ async def check_for_updates(context: ContextTypes.DEFAULT_TYPE) -> None:
 # ── Handlers ───────────────────────────────────────────────────────────────────
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    
+    # Prevent running twice
+    if context.user_data.get("started"):
+        return
+    context.user_data["started"] = True
+
     if not _is_allowed(update):
         return
-    keyboard = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("Français", callback_data="lang_fr"),
-            InlineKeyboardButton("English", callback_data="lang_en"),
-        ]
-    ])
+
+    keyboard = [
+        [InlineKeyboardButton("English", callback_data="lang_en")],
+        [InlineKeyboardButton("Français", callback_data="lang_fr")]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
     await update.message.reply_text(
-        " Choisis ta langue\nChoose your language",
-        reply_markup=keyboard,
+        "Please choose your language:",
+        reply_markup=reply_markup
     )
 
 

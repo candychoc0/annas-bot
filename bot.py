@@ -197,7 +197,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         ]
     ])
     await update.message.reply_text(
-        " Choisis ta langue\n Choose your language",
+        " Choisis ta langue\nChoose your language",
         reply_markup=keyboard,
     )
 
@@ -214,20 +214,6 @@ async def handle_language(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
 async def handle_search(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if not _is_allowed(update):
-        return
-
-    # If no language set yet, prompt for it
-    if "lang" not in context.user_data:
-        keyboard = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton("Français", callback_data="lang_fr"),
-                InlineKeyboardButton("English", callback_data="lang_en"),
-            ]
-        ])
-        await update.message.reply_text(
-            "Choisis ta langue\nChoose your language",
-            reply_markup=keyboard,
-        )
         return
 
     now = time.monotonic()

@@ -136,6 +136,8 @@ def _cleanup_orphaned_temp_files() -> None:
 
 
 def _is_allowed(update: Update) -> bool:
+    if not ALLOWED_USER_IDS:
+        return True
     uid = update.effective_user.id if update.effective_user else None
     return uid in ALLOWED_USER_IDS
 

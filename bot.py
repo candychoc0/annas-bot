@@ -192,12 +192,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         return
     keyboard = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton("🇫🇷 Français", callback_data="lang_fr"),
-            InlineKeyboardButton("🇬🇧 English", callback_data="lang_en"),
+            InlineKeyboardButton("Français", callback_data="lang_fr"),
+            InlineKeyboardButton("English", callback_data="lang_en"),
         ]
     ])
     await update.message.reply_text(
-        "🇫🇷 Choisis ta langue\n🇬🇧 Choose your language",
+        " Choisis ta langue\n Choose your language",
         reply_markup=keyboard,
     )
 
